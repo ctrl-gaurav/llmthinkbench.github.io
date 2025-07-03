@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLMThinkBench - Evaluating Math Reasoning & Overthinking in LLMs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --dark-bg: #0f0f23;
+            --card-bg: #1a1a2e;
+            --text-light: #e4e4e7;
+            --text-dark: #71717a;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a3e 100%);
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Header */
+        header {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .badge {
+            background: rgba(102, 126, 234, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--primary-color);
+            color: var(--text-light);
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge:hover {
+            background: rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Top Models Section */
+        .top-models {
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .winners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .winner-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .winner-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .winner-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .trophy {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .gold-trophy { color: var(--gold); }
+        .silver-trophy { color: var(--silver); }
+        .bronze-trophy { color: var(--bronze); }
+
+        .winner-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .winner-model {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .winner-metric {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Search and Filters */
+        .controls {
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            padding: 0 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dark);
+        }
+
+        .sort-select {
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: var(--text-light);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Table */
+        .table-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        thead {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        th {
+            padding: 1.2rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary-color);
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+
+        th:hover {
+            background: rgba(102, 126, 234, 0.3);
+        }
+
+        th i {
+            margin-left: 0.5rem;
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        td {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        tr:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .rank {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rank-1 { color: var(--gold); }
+        .rank-2 { color: var(--silver); }
+        .rank-3 { color: var(--bronze); }
+
+        .model-name {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .metric-good {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .metric-medium {
+            color: var(--warning-color);
+            font-weight: 600;
+        }
+
+        .metric-bad {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+
+        /* Charts Section */
+        .charts-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+
+        .chart-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            height: 400px;
+            position: relative;
+        }
+        
+        .chart-container canvas {
+            max-height: 350px !important;
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            padding: 3rem 0;
+            margin-top: 6rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .citation {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-container {
+                padding: 0 1rem;
+            }
+
+            th, td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🧠</span>
+                <h1>LLMThinkBench</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="https://github.com/ctrl-gaurav/LLMThinkBench" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="https://pypi.org/project/llmthinkbench/" target="_blank">
+                    <i class="fab fa-python"></i> PyPI
+                </a>
+                <a href="#citation">
+                    <i class="fas fa-quote-right"></i> Cite
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h2>Evaluating Math Reasoning & Overthinking in LLMs</h2>
+        <p>LLMThinkBench is a comprehensive framework designed to rigorously evaluate the basic math reasoning capabilities of Language Models, while identifying instances of overthinking—where models apply unnecessarily complex logic to simple problems.</p>
+        
+        <div class="badges">
+            <a href="https://pypi.org/project/llmthinkbench/" target="_blank" class="badge" style="text-decoration: none;">
+                <i class="fab fa-python"></i> PyPI v0.1.6
+            </a>
+            <a href="https://github.com/ctrl-gaurav/LLMThinkBench" target="_blank" class="badge" style="text-decoration: none;">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="https://arxiv.org" target="_blank" class="badge" style="text-decoration: none;">
+                <i class="fas fa-file-alt"></i> arXiv (Coming Soon)
+            </a>
+            <!-- <span class="badge">Python 3.12+</span> -->
+            <!-- <span class="badge">vLLM Powered</span> -->
+        </div>
+    </section>
+
+    <section class="top-models">
+        <h2 class="section-title">🏆 Category Winners</h2>
+        <div class="winners-grid">
+            <div class="winner-card">
+                <div class="trophy gold-trophy">🥇</div>
+                <div class="winner-title">Best Overall Accuracy</div>
+                <div class="winner-model" id="best-accuracy-model">Loading...</div>
+                <div class="winner-metric" id="best-accuracy-value">--</div>
+            </div>
+            <div class="winner-card">
+                <div class="trophy silver-trophy">🥈</div>
+                <div class="winner-title">Most Efficient Model</div>
+                <div class="winner-model" id="best-efficiency-model">Loading...</div>
+                <div class="winner-metric" id="best-efficiency-value">--</div>
+            </div>
+            <div class="winner-card">
+                <div class="trophy bronze-trophy">🥉</div>
+                <div class="winner-title">Best Instruction Following</div>
+                <div class="winner-model" id="best-instruction-model">Loading...</div>
+                <div class="winner-metric" id="best-instruction-value">--</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="controls">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search models...">
+        </div>
+        <select class="sort-select" id="sortSelect">
+            <option value="rank">Sort by Rank</option>
+            <option value="accuracy">Sort by Accuracy</option>
+            <option value="efficiency">Sort by Efficiency</option>
+            <option value="instruction">Sort by Instruction Following</option>
+            <option value="overthinking">Sort by Overthinking Ratio</option>
+            <option value="tokens">Sort by Tokens (Low to High)</option>
+            <option value="params">Sort by Parameters</option>
+        </select>
+    </section>
+
+    <section class="table-container">
+        <table id="leaderboardTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable('rank')">Rank <i class="fas fa-sort"></i></th>
+                    <th onclick="sortTable('model')">Model <i class="fas fa-sort"></i></th>
+                    <th onclick="sortTable('params')">Parameters <i class="fas fa-sort"></i></th>
+                    <th onclick="sortTable('accuracy')">Accuracy <i class="fas fa-sort"></i></th>
+                    <th onclick="sortTable('efficiency')">Efficiency Score <i class="fas fa-sort"></i></th>
+                    <th onclick="sortTable('instruction')">Instruction Following <i class="fas fa-sort"></i></th>
+                    <th onclick="sortTable('overthinking')">Overthinking Ratio <i class="fas fa-sort"></i></th>
+                    <th onclick="sortTable('tokens')">Avg Tokens <i class="fas fa-sort"></i></th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Table rows will be inserted here -->
+            </tbody>
+        </table>
+    </section>
+
+    <section class="charts-section">
+        <h2 class="section-title">📊 Performance Insights</h2>
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3 class="chart-title">Accuracy vs Efficiency Trade-off</h3>
+                <canvas id="efficiencyChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3 class="chart-title">Model Size vs Performance</h3>
+                <canvas id="sizeChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <h3>Citation</h3>
+            <div class="citation" id="citation">
+@software{llmthinkbench2025,
+  author = {Gaurav Srivastava, Aafiya Hussain, Sriram Srinivasan, Xuan Wang},
+  title = {LLMThinkBench: Advanced Reasoning and Overthinking Evaluation Framework for LLMs},
+  year = {2025},
+  url = {https://github.com/ctrl-gaurav/LLMThinkBench/},
+  version = {0.1.6}
+}
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/ctrl-gaurav/LLMThinkBench" target="_blank">
+                    <i class="fab fa-github"></i> GitHub Repository
+                </a>
+                <a href="https://pypi.org/project/llmthinkbench/" target="_blank">
+                    <i class="fab fa-python"></i> Install via PyPI
+                </a>
+                <a href="https://github.com/ctrl-gaurav/LLMThinkBench/issues" target="_blank">
+                    <i class="fas fa-bug"></i> Report Issues
+                </a>
+            </div>
+            <p style="margin-top: 2rem; color: var(--text-dark);">
+                © 2025 LLMThinkBench. Licensed under MIT.
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        // ===== EASY MODEL CONFIGURATION =====
+        // To add new models, simply add them to this array
+        // Rankings and winners will be calculated automatically
+        const modelData = [
+            // Qwen3 Series
+            {
+                model: "Qwen/Qwen3-0.6B",
+                params: "0.6B",
+                accuracy: 27.00,
+                instruction: 50.41,
+                tokens: 762.3,
+                efficiency: 0.182,
+                overthinking: 36835.1,
+                words: 427.9,
+                chars: 2219.8
+            },
+            {
+                model: "Qwen/Qwen3-1.7B",
+                params: "1.7B",
+                accuracy: 30.67,
+                instruction: 42.52,
+                tokens: 778.3,
+                efficiency: 0.189,
+                overthinking: 34776.1,
+                words: 435.5,
+                chars: 2254.3
+            },
+            {
+                model: "Qwen/Qwen3-4B",
+                params: "4B",
+                accuracy: 31.73,
+                instruction: 41.30,
+                tokens: 785.9,
+                efficiency: 0.202,
+                overthinking: 24176.7,
+                words: 446.4,
+                chars: 2321.0
+            },
+            {
+                model: "Qwen/Qwen3-8B",
+                params: "8B",
+                accuracy: 28.35,
+                instruction: 42.33,
+                tokens: 790.9,
+                efficiency: 0.186,
+                overthinking: 33941.3,
+                words: 451.7,
+                chars: 2342.9
+            },
+            {
+                model: "Qwen/Qwen3-14B",
+                params: "14B",
+                accuracy: 35.18,
+                instruction: 49.89,
+                tokens: 753.2,
+                efficiency: 0.199,
+                overthinking: 19199.5,
+                words: 426.9,
+                chars: 2219.5
+            },
+            {
+                model: "Qwen/Qwen3-32B",
+                params: "32B",
+                accuracy: 30.22,
+                instruction: 44.56,
+                tokens: 778.6,
+                efficiency: 0.193,
+                overthinking: 26784.2,
+                words: 446.8,
+                chars: 2327.3
+            },
+            
+            // Microsoft Phi-4 Series
+            {
+                model: "microsoft/phi-4",
+                params: "14B",
+                accuracy: 78.92,
+                instruction: 97.46,
+                tokens: 378.6,
+                efficiency: 0.593,
+                overthinking: 1982.5,
+                words: 194.6,
+                chars: 989.9
+            },
+            {
+                model: "microsoft/Phi-4-mini-instruct",
+                params: "3.8B",
+                accuracy: 54.55,
+                instruction: 95.02,
+                tokens: 292.1,
+                efficiency: 0.567,
+                overthinking: 3017.4,
+                words: 146.6,
+                chars: 684.9
+            },
+            {
+                model: "microsoft/Phi-4-reasoning-plus",
+                params: "14B",
+                accuracy: 44.33,
+                instruction: 78.88,
+                tokens: 1022.2,
+                efficiency: 0.141,
+                overthinking: 31806.4,
+                words: 537.8,
+                chars: 2974.5
+            },
+            {
+                model: "microsoft/Phi-4-reasoning",
+                params: "14B",
+                accuracy: 53.48,
+                instruction: 90.21,
+                tokens: 1013.5,
+                efficiency: 0.107,
+                overthinking: 5264.1,
+                words: 554.3,
+                chars: 3259.3
+            },
+            {
+                model: "microsoft/Phi-4-mini-reasoning",
+                params: "3.8B",
+                accuracy: 40.52,
+                instruction: 59.32,
+                tokens: 909.8,
+                efficiency: 0.251,
+                overthinking: 41166.0,
+                words: 495.7,
+                chars: 2607.2
+            },
+            {
+                model: "microsoft/Phi-3-mini-128k-instruct",
+                params: "3.8B",
+                accuracy: 35.82,
+                instruction: 96.58,
+                tokens: 89.4,
+                efficiency: 0.413,
+                overthinking: 1156.9,
+                words: 40.6,
+                chars: 208.9
+            },
+            {
+                model: "microsoft/Phi-3-medium-4k-instruct",
+                params: "14B",
+                accuracy: 43.47,
+                instruction: 89.87,
+                tokens: 189.3,
+                efficiency: 0.378,
+                overthinking: 3134.7,
+                words: 109.6,
+                chars: 553.6
+            },
+            {
+                model: "microsoft/Phi-3-medium-128k-instruct",
+                params: "14B",
+                accuracy: 40.76,
+                instruction: 96.26,
+                tokens: 140.0,
+                efficiency: 0.390,
+                overthinking: 1188.4,
+                words: 74.8,
+                chars: 367.3
+            },
+            
+            // Meta LLaMA Series
+            {
+                model: "meta-llama/Llama-3.2-1B-Instruct",
+                params: "1B",
+                accuracy: 16.25,
+                instruction: 47.15,
+                tokens: 336.3,
+                efficiency: 0.223,
+                overthinking: 6659.1,
+                words: 159.0,
+                chars: 756.9
+            },
+            {
+                model: "meta-llama/Llama-3.2-3B-Instruct",
+                params: "3B",
+                accuracy: 42.54,
+                instruction: 89.88,
+                tokens: 279.7,
+                efficiency: 0.490,
+                overthinking: 4737.8,
+                words: 144.6,
+                chars: 694.7
+            },
+            {
+                model: "meta-llama/Llama-3.1-8B-Instruct",
+                params: "8B",
+                accuracy: 48.84,
+                instruction: 85.66,
+                tokens: 366.4,
+                efficiency: 0.516,
+                overthinking: 5667.7,
+                words: 203.4,
+                chars: 977.7
+            },
+            {
+                model: "meta-llama/Llama-3.1-70B-Instruct",
+                params: "70B",
+                accuracy: 75.43,
+                instruction: 98.12,
+                tokens: 251.2,
+                efficiency: 0.691,
+                overthinking: 4519.7,
+                words: 135.5,
+                chars: 654.6
+            },
+            {
+                model: "meta-llama/Llama-3.3-70B-Instruct",
+                params: "70B",
+                accuracy: 74.59,
+                instruction: 97.40,
+                tokens: 312.8,
+                efficiency: 0.654,
+                overthinking: 1641.0,
+                words: 174.1,
+                chars: 859.7
+            },
+            
+            // Qwen2.5 Series (Base Models)
+            {
+                model: "Qwen/Qwen2.5-0.5B-Instruct",
+                params: "0.5B",
+                accuracy: 21.31,
+                instruction: 77.57,
+                tokens: 432.3,
+                efficiency: 0.268,
+                overthinking: 12885.7,
+                words: 223.2,
+                chars: 1144.5
+            },
+            {
+                model: "Qwen/Qwen2.5-1.5B-Instruct",
+                params: "1.5B",
+                accuracy: 43.03,
+                instruction: 85.45,
+                tokens: 264.7,
+                efficiency: 0.470,
+                overthinking: 3348.5,
+                words: 134.1,
+                chars: 626.7
+            },
+            {
+                model: "Qwen/Qwen2.5-3B-Instruct",
+                params: "3B",
+                accuracy: 45.75,
+                instruction: 92.35,
+                tokens: 331.3,
+                efficiency: 0.463,
+                overthinking: 2811.3,
+                words: 176.5,
+                chars: 861.4
+            },
+            {
+                model: "Qwen/Qwen2.5-7B-Instruct",
+                params: "7B",
+                accuracy: 61.36,
+                instruction: 96.47,
+                tokens: 286.9,
+                efficiency: 0.568,
+                overthinking: 6106.2,
+                words: 149.5,
+                chars: 747.2
+            },
+            {
+                model: "Qwen/Qwen2.5-14B-Instruct",
+                params: "14B",
+                accuracy: 63.74,
+                instruction: 97.83,
+                tokens: 260.2,
+                efficiency: 0.578,
+                overthinking: 1835.9,
+                words: 137.1,
+                chars: 685.7
+            },
+            {
+                model: "Qwen/Qwen2.5-32B-Instruct",
+                params: "32B",
+                accuracy: 72.90,
+                instruction: 99.26,
+                tokens: 260.9,
+                efficiency: 0.643,
+                overthinking: 1425.9,
+                words: 139.1,
+                chars: 673.6
+            },
+            
+            // Other Models
+            {
+                model: "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+                params: "1.7B",
+                accuracy: 16.69,
+                instruction: 68.98,
+                tokens: 213.0,
+                efficiency: 0.217,
+                overthinking: 10923.8,
+                words: 93.5,
+                chars: 481.5
+            },
+            {
+                model: "mistralai/Mistral-7B-Instruct-v0.3",
+                params: "7B",
+                accuracy: 27.66,
+                instruction: 96.26,
+                tokens: 207.1,
+                efficiency: 0.289,
+                overthinking: 4812.8,
+                words: 113.7,
+                chars: 585.9
+            },
+            {
+                model: "mistralai/Mistral-Nemo-Instruct-2407",
+                params: "12B",
+                accuracy: 35.43,
+                instruction: 82.95,
+                tokens: 377.0,
+                efficiency: 0.356,
+                overthinking: 14208.7,
+                words: 234.2,
+                chars: 1123.7
+            },
+            
+            // Qwen2.5 Math Series
+            {
+                model: "Qwen/Qwen2.5-Math-1.5B-Instruct",
+                params: "1.5B",
+                accuracy: 51.43,
+                instruction: 94.04,
+                tokens: 397.1,
+                efficiency: 0.488,
+                overthinking: 5465.9,
+                words: 210.0,
+                chars: 1076.9
+            },
+            {
+                model: "Qwen/Qwen2.5-Math-7B-Instruct",
+                params: "7B",
+                accuracy: 60.68,
+                instruction: 94.36,
+                tokens: 411.7,
+                efficiency: 0.538,
+                overthinking: 3741.4,
+                words: 221.5,
+                chars: 1156.0
+            },
+            
+            // Qwen2.5 Quantized Models (GPTQ-8-Bit)
+            {
+                model: "Qwen/Qwen2.5-0.5B-Instruct-GPTQ-Int8",
+                params: "0.5B",
+                accuracy: 21.29,
+                instruction: 76.79,
+                tokens: 431.5,
+                efficiency: 0.268,
+                overthinking: 5694.5,
+                words: 223.3,
+                chars: 1138.5
+            },
+            {
+                model: "Qwen/Qwen2.5-1.5B-Instruct-GPTQ-Int8",
+                params: "1.5B",
+                accuracy: 43.67,
+                instruction: 86.64,
+                tokens: 264.3,
+                efficiency: 0.472,
+                overthinking: 5268.4,
+                words: 133.7,
+                chars: 628.3
+            },
+            {
+                model: "Qwen/Qwen2.5-3B-Instruct-GPTQ-Int8",
+                params: "3B",
+                accuracy: 48.65,
+                instruction: 91.99,
+                tokens: 341.9,
+                efficiency: 0.497,
+                overthinking: 7244.8,
+                words: 181.7,
+                chars: 878.7
+            },
+            {
+                model: "Qwen/Qwen2.5-7B-Instruct-GPTQ-Int8",
+                params: "7B",
+                accuracy: 60.61,
+                instruction: 96.40,
+                tokens: 287.5,
+                efficiency: 0.564,
+                overthinking: 6121.5,
+                words: 149.4,
+                chars: 745.5
+            },
+            {
+                model: "Qwen/Qwen2.5-14B-Instruct-GPTQ-Int8",
+                params: "14B",
+                accuracy: 63.86,
+                instruction: 97.89,
+                tokens: 261.2,
+                efficiency: 0.576,
+                overthinking: 2070.4,
+                words: 138.1,
+                chars: 688.9
+            },
+            {
+                model: "Qwen/Qwen2.5-32B-Instruct-GPTQ-Int8",
+                params: "32B",
+                accuracy: 73.08,
+                instruction: 99.20,
+                tokens: 261.9,
+                efficiency: 0.645,
+                overthinking: 1254.2,
+                words: 139.6,
+                chars: 675.7
+            },
+            {
+                model: "Qwen/Qwen2.5-72B-Instruct-GPTQ-Int8",
+                params: "72B",
+                accuracy: 74.05,
+                instruction: 96.28,
+                tokens: 347.1,
+                efficiency: 0.577,
+                overthinking: 3424.8,
+                words: 184.2,
+                chars: 901.5
+            },
+            
+            // Qwen2.5 Quantized Models (GPTQ-4-Bit)
+            {
+                model: "Qwen/Qwen2.5-0.5B-Instruct-GPTQ-Int4",
+                params: "0.5B",
+                accuracy: 12.77,
+                instruction: 77.70,
+                tokens: 478.0,
+                efficiency: 0.176,
+                overthinking: 22014.7,
+                words: 260.9,
+                chars: 1342.5
+            },
+            {
+                model: "Qwen/Qwen2.5-1.5B-Instruct-GPTQ-Int4",
+                params: "1.5B",
+                accuracy: 39.42,
+                instruction: 82.97,
+                tokens: 292.1,
+                efficiency: 0.434,
+                overthinking: 6973.2,
+                words: 142.3,
+                chars: 685.0
+            },
+            {
+                model: "Qwen/Qwen2.5-3B-Instruct-GPTQ-Int4",
+                params: "3B",
+                accuracy: 41.94,
+                instruction: 90.97,
+                tokens: 301.0,
+                efficiency: 0.438,
+                overthinking: 9158.4,
+                words: 158.8,
+                chars: 753.3
+            },
+            {
+                model: "Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4",
+                params: "7B",
+                accuracy: 58.03,
+                instruction: 96.00,
+                tokens: 291.9,
+                efficiency: 0.550,
+                overthinking: 3961.6,
+                words: 152.2,
+                chars: 758.9
+            },
+            {
+                model: "Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4",
+                params: "14B",
+                accuracy: 60.94,
+                instruction: 96.69,
+                tokens: 240.9,
+                efficiency: 0.586,
+                overthinking: 2501.9,
+                words: 127.5,
+                chars: 632.8
+            },
+            {
+                model: "Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4",
+                params: "32B",
+                accuracy: 72.67,
+                instruction: 99.37,
+                tokens: 260.5,
+                efficiency: 0.640,
+                overthinking: 1430.9,
+                words: 139.2,
+                chars: 663.7
+            },
+            {
+                model: "Qwen/Qwen2.5-72B-Instruct-GPTQ-Int4",
+                params: "72B",
+                accuracy: 72.74,
+                instruction: 94.85,
+                tokens: 358.3,
+                efficiency: 0.549,
+                overthinking: 2606.3,
+                words: 188.4,
+                chars: 919.8
+            }
+        ];
+
+        // Calculate ranks dynamically based on efficiency score
+        function calculateRanks(data) {
+            // Sort by efficiency score (descending) to determine ranks
+            const sorted = [...data].sort((a, b) => b.efficiency - a.efficiency);
+            
+            // Assign ranks
+            sorted.forEach((model, index) => {
+                model.rank = index + 1;
+            });
+            
+            // Return original array with ranks added
+            return data.map(model => {
+                const rankedModel = sorted.find(m => m.model === model.model);
+                return { ...model, rank: rankedModel.rank };
+            });
+        }
+
+        // Add ranks to model data
+        let rankedModelData = calculateRanks(modelData);
+
+        // Function to get color based on metric value
+        function getMetricClass(value, metric) {
+            switch(metric) {
+                case 'accuracy':
+                case 'instruction':
+                case 'efficiency':
+                    return value >= 70 ? 'metric-good' : value >= 40 ? 'metric-medium' : 'metric-bad';
+                case 'overthinking':
+                case 'tokens':
+                    return value <= 500 ? 'metric-good' : value <= 1000 ? 'metric-medium' : 'metric-bad';
+                default:
+                    return '';
+            }
+        }
+
+        // Function to render table
+        function renderTable(data) {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+
+            // Use the data as provided (already sorted by caller)
+            const sortedData = data;
+
+            sortedData.forEach((model) => {
+                const row = document.createElement('tr');
+                const rankIcon = model.rank <= 3 ? ['🥇', '🥈', '🥉'][model.rank - 1] : '';
+                
+                row.innerHTML = `
+                    <td>
+                        <span class="rank rank-${model.rank}">
+                            ${rankIcon} #${model.rank}
+                        </span>
+                    </td>
+                    <td class="model-name">${model.model}</td>
+                    <td>${model.params}</td>
+                    <td class="${getMetricClass(model.accuracy, 'accuracy')}">${model.accuracy.toFixed(2)}%</td>
+                    <td class="${getMetricClass(model.efficiency * 100, 'efficiency')}">${model.efficiency.toFixed(3)}</td>
+                    <td class="${getMetricClass(model.instruction, 'instruction')}">${model.instruction.toFixed(2)}%</td>
+                    <td class="${getMetricClass(model.overthinking, 'overthinking')}">${model.overthinking.toFixed(1)}</td>
+                    <td class="${getMetricClass(model.tokens, 'tokens')}">${model.tokens.toFixed(1)}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Update top models dynamically
+        function updateTopModels() {
+            // Best Accuracy
+            const bestAccuracy = rankedModelData.reduce((a, b) => a.accuracy > b.accuracy ? a : b);
+            document.getElementById('best-accuracy-model').textContent = bestAccuracy.model;
+            document.getElementById('best-accuracy-value').textContent = `${bestAccuracy.accuracy.toFixed(2)}%`;
+
+            // Best Efficiency
+            const bestEfficiency = rankedModelData.reduce((a, b) => a.efficiency > b.efficiency ? a : b);
+            document.getElementById('best-efficiency-model').textContent = bestEfficiency.model;
+            document.getElementById('best-efficiency-value').textContent = bestEfficiency.efficiency.toFixed(3);
+
+            // Best Instruction Following
+            const bestInstruction = rankedModelData.reduce((a, b) => a.instruction > b.instruction ? a : b);
+            document.getElementById('best-instruction-model').textContent = bestInstruction.model;
+            document.getElementById('best-instruction-value').textContent = `${bestInstruction.instruction.toFixed(2)}%`;
+        }
+
+        // Sort functionality
+        let currentSort = { column: 'rank', order: 'asc' };
+
+        function sortTable(column) {
+            if (currentSort.column === column) {
+                currentSort.order = currentSort.order === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = column;
+                currentSort.order = column === 'overthinking' || column === 'tokens' ? 'asc' : 'desc';
+            }
+
+            // Update dropdown to match current sort
+            document.getElementById('sortSelect').value = column;
+
+            const sortedData = [...rankedModelData].sort((a, b) => {
+                let aVal, bVal;
+                switch(column) {
+                    case 'model':
+                        aVal = a.model.toLowerCase();
+                        bVal = b.model.toLowerCase();
+                        break;
+                    case 'params':
+                        aVal = parseFloat(a.params.replace(/[^0-9.]/g, ''));
+                        bVal = parseFloat(b.params.replace(/[^0-9.]/g, ''));
+                        break;
+                    default:
+                        aVal = a[column];
+                        bVal = b[column];
+                }
+
+                if (currentSort.order === 'asc') {
+                    return aVal > bVal ? 1 : -1;
+                } else {
+                    return aVal < bVal ? 1 : -1;
+                }
+            });
+
+            renderTable(sortedData);
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredData = rankedModelData.filter(model => 
+                model.model.toLowerCase().includes(searchTerm)
+            );
+            
+            // Apply current sorting to filtered data
+            const sortedData = [...filteredData].sort((a, b) => {
+                let aVal, bVal;
+                switch(currentSort.column) {
+                    case 'model':
+                        aVal = a.model.toLowerCase();
+                        bVal = b.model.toLowerCase();
+                        break;
+                    case 'params':
+                        aVal = parseFloat(a.params.replace(/[^0-9.]/g, ''));
+                        bVal = parseFloat(b.params.replace(/[^0-9.]/g, ''));
+                        break;
+                    default:
+                        aVal = a[currentSort.column];
+                        bVal = b[currentSort.column];
+                }
+
+                if (currentSort.order === 'asc') {
+                    return aVal > bVal ? 1 : -1;
+                } else {
+                    return aVal < bVal ? 1 : -1;
+                }
+            });
+            
+            renderTable(sortedData);
+        });
+
+        // Sort select
+        document.getElementById('sortSelect').addEventListener('change', function(e) {
+            const column = e.target.value;
+            // Update current sort state
+            currentSort.column = column;
+            currentSort.order = column === 'overthinking' || column === 'tokens' ? 'asc' : 'desc';
+            
+            const sortedData = [...rankedModelData].sort((a, b) => {
+                let aVal, bVal;
+                switch(column) {
+                    case 'model':
+                        aVal = a.model.toLowerCase();
+                        bVal = b.model.toLowerCase();
+                        break;
+                    case 'params':
+                        aVal = parseFloat(a.params.replace(/[^0-9.]/g, ''));
+                        bVal = parseFloat(b.params.replace(/[^0-9.]/g, ''));
+                        break;
+                    default:
+                        aVal = a[column];
+                        bVal = b[column];
+                }
+
+                if (currentSort.order === 'asc') {
+                    return aVal > bVal ? 1 : -1;
+                } else {
+                    return aVal < bVal ? 1 : -1;
+                }
+            });
+
+            renderTable(sortedData);
+        });
+
+        // Initialize charts
+        function initCharts() {
+            // Set Chart.js defaults for dark theme
+            Chart.defaults.color = '#e4e4e7';
+            
+            // Efficiency Chart
+            const effCanvas = document.getElementById('efficiencyChart');
+            const effCtx = effCanvas.getContext('2d');
+            
+            new Chart(effCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Models',
+                        data: rankedModelData.map(m => ({
+                            x: m.accuracy,
+                            y: m.efficiency * 100,
+                            label: m.model.split('/').pop()
+                        })),
+                        backgroundColor: 'rgba(102, 126, 234, 0.6)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2,
+                        pointRadius: 8,
+                        pointHoverRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'point'
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.raw.label}: ${context.parsed.x.toFixed(2)}% accuracy, ${context.parsed.y.toFixed(2)} efficiency`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Accuracy (%)'
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Efficiency Score (%)'
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        }
+                    }
+                }
+            });
+
+            // Size Chart
+            const sizeCanvas = document.getElementById('sizeChart');
+            const sizeCtx = sizeCanvas.getContext('2d');
+            
+            new Chart(sizeCtx, {
+                type: 'bar',
+                data: {
+                    labels: rankedModelData.map(m => m.model.split('/').pop()),
+                    datasets: [{
+                        label: 'Accuracy (%)',
+                        data: rankedModelData.map(m => m.accuracy),
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2,
+                        yAxisID: 'y-accuracy'
+                    }, {
+                        label: 'Parameters (B)',
+                        data: rankedModelData.map(m => parseFloat(m.params)),
+                        backgroundColor: 'rgba(240, 147, 251, 0.8)',
+                        borderColor: 'rgba(240, 147, 251, 1)',
+                        borderWidth: 2,
+                        yAxisID: 'y-params',
+                        type: 'line',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        'y-accuracy': {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Accuracy (%)'
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        'y-params': {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Parameters (B)'
+                            },
+                            grid: { drawOnChartArea: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTopModels();
+            // Sort by rank initially to show rank 1 first
+            const initialSortedData = [...rankedModelData].sort((a, b) => a.rank - b.rank);
+            renderTable(initialSortedData);
+            initCharts();
+        });
+
+        // Add smooth scrolling for citation link
+        document.querySelector('a[href="#citation"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('citation').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
