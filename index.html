@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,8 +57,8 @@
             top: -100%;
             left: -100%;
             background: radial-gradient(circle at 30% 70%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 30%, rgba(240, 147, 251, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 70% 30%, rgba(240, 147, 251, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
             animation: rotate 60s linear infinite;
         }
 
@@ -72,13 +73,25 @@
         }
 
         @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-20px) scale(1.1); }
+
+            0%,
+            100% {
+                transform: translateY(0px) scale(1);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.1);
+            }
         }
 
         /* Particle System */
@@ -106,12 +119,15 @@
                 transform: translateY(100vh) translateX(-50px);
                 opacity: 0;
             }
+
             10% {
                 opacity: 1;
             }
+
             90% {
                 opacity: 1;
             }
+
             100% {
                 transform: translateY(-100px) translateX(50px);
                 opacity: 0;
@@ -330,9 +346,17 @@
             display: inline-block;
         }
 
-        .gold-trophy { color: var(--gold); }
-        .silver-trophy { color: var(--silver); }
-        .bronze-trophy { color: var(--bronze); }
+        .gold-trophy {
+            color: var(--gold);
+        }
+
+        .silver-trophy {
+            color: var(--silver);
+        }
+
+        .bronze-trophy {
+            color: var(--bronze);
+        }
 
         .winner-title {
             font-size: 1.2rem;
@@ -488,9 +512,17 @@
             gap: 0.5rem;
         }
 
-        .rank-1 { color: var(--gold); }
-        .rank-2 { color: var(--silver); }
-        .rank-3 { color: var(--bronze); }
+        .rank-1 {
+            color: var(--gold);
+        }
+
+        .rank-2 {
+            color: var(--silver);
+        }
+
+        .rank-3 {
+            color: var(--bronze);
+        }
 
         .model-name {
             font-weight: 600;
@@ -533,7 +565,7 @@
             height: 400px;
             position: relative;
         }
-        
+
         .chart-container canvas {
             max-height: 350px !important;
         }
@@ -866,7 +898,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Enhanced Buttons */
@@ -928,7 +962,8 @@
                 padding: 0 1rem;
             }
 
-            th, td {
+            th,
+            td {
                 padding: 0.8rem 0.5rem;
                 font-size: 0.9rem;
             }
@@ -949,6 +984,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="bg-animation"></div>
     <div class="particles" id="particles"></div>
@@ -975,13 +1011,17 @@
 
     <section class="hero fade-in">
         <h2>Evaluating Math Reasoning & Overthinking in LLMs</h2>
-        <p>LLMThinkBench is a comprehensive framework designed to rigorously evaluate the basic math reasoning capabilities of Language Models, while identifying instances of overthinking—where models apply unnecessarily complex logic to simple problems.</p>
-        
+        <p>LLMThinkBench is a comprehensive framework designed to rigorously evaluate the basic math reasoning
+            capabilities of Language Models, while identifying instances of overthinking—where models apply
+            unnecessarily complex logic to simple problems.</p>
+
         <div class="badges">
-            <a href="https://pypi.org/project/llmthinkbench/" target="_blank" class="badge" style="text-decoration: none;">
+            <a href="https://pypi.org/project/llmthinkbench/" target="_blank" class="badge"
+                style="text-decoration: none;">
                 <i class="fab fa-python"></i> PyPI v0.1.6
             </a>
-            <a href="https://github.com/ctrl-gaurav/LLMThinkBench" target="_blank" class="badge" style="text-decoration: none;">
+            <a href="https://github.com/ctrl-gaurav/LLMThinkBench" target="_blank" class="badge"
+                style="text-decoration: none;">
                 <i class="fab fa-github"></i> GitHub
             </a>
             <a href="https://arxiv.org" target="_blank" class="badge" style="text-decoration: none;">
@@ -1018,7 +1058,8 @@
     <section class="filter-panel fade-in" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
         <h3 style="color: var(--primary-color); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
             <i class="fas fa-filter"></i> Advanced Filters
-            <button class="btn btn-secondary" onclick="resetFilters()" style="margin-left: auto; padding: 0.5rem 1rem; font-size: 0.9rem;">
+            <button class="btn btn-secondary" onclick="resetFilters()"
+                style="margin-left: auto; padding: 0.5rem 1rem; font-size: 0.9rem;">
                 <i class="fas fa-redo"></i> Reset
             </button>
         </h3>
@@ -1031,7 +1072,8 @@
             </div>
             <div class="filter-group">
                 <label class="filter-label">Model Family</label>
-                <select id="familyFilter" style="padding: 0.5rem; border-radius: 8px; background: rgba(255,255,255,0.1); border: 1px solid var(--primary-color); color: var(--text-light);">
+                <select id="familyFilter"
+                    style="padding: 0.5rem; border-radius: 8px; background: rgba(255,255,255,0.1); border: 1px solid var(--primary-color); color: var(--text-light);">
                     <option value="">All Families</option>
                     <option value="Qwen">Qwen</option>
                     <option value="Phi">Microsoft Phi</option>
@@ -1042,7 +1084,8 @@
             </div>
             <div class="filter-group">
                 <label class="filter-label">Parameter Size</label>
-                <select id="sizeFilter" style="padding: 0.5rem; border-radius: 8px; background: rgba(255,255,255,0.1); border: 1px solid var(--primary-color); color: var(--text-light);">
+                <select id="sizeFilter"
+                    style="padding: 0.5rem; border-radius: 8px; background: rgba(255,255,255,0.1); border: 1px solid var(--primary-color); color: var(--text-light);">
                     <option value="">All Sizes</option>
                     <option value="small">Small (< 3B)</option>
                     <option value="medium">Medium (3B - 10B)</option>
@@ -1056,7 +1099,8 @@
             </div>
             <div class="filter-group">
                 <label class="filter-label">Quantization Type</label>
-                <select id="quantizationFilter" style="padding: 0.5rem; border-radius: 8px; background: rgba(255,255,255,0.1); border: 1px solid var(--primary-color); color: var(--text-light);">
+                <select id="quantizationFilter"
+                    style="padding: 0.5rem; border-radius: 8px; background: rgba(255,255,255,0.1); border: 1px solid var(--primary-color); color: var(--text-light);">
                     <option value="">All Models</option>
                     <option value="normal">Normal Models Only</option>
                     <option value="quantized">Quantized Models Only</option>
@@ -1201,13 +1245,13 @@
         <div class="footer-content">
             <h3>Citation</h3>
             <div class="citation" id="citation">
-@software{llmthinkbench2025,
-  author = {Gaurav Srivastava, Aafiya Hussain, Sriram Srinivasan, Xuan Wang},
-  title = {LLMThinkBench: Advanced Reasoning and Overthinking Evaluation Framework for LLMs},
-  year = {2025},
-  url = {https://github.com/ctrl-gaurav/LLMThinkBench/},
-  version = {0.1.6}
-}
+                @software{llmthinkbench2025,
+                author = {Gaurav Srivastava, Aafiya Hussain, Sriram Srinivasan, Xuan Wang},
+                title = {LLMThinkBench: Advanced Reasoning and Overthinking Evaluation Framework for LLMs},
+                year = {2025},
+                url = {https://github.com/ctrl-gaurav/LLMThinkBench/},
+                version = {0.1.6}
+                }
             </div>
             <div class="footer-links">
                 <a href="https://github.com/ctrl-gaurav/LLMThinkBench" target="_blank">
@@ -1305,7 +1349,7 @@
                 words: 446.8,
                 chars: 2327.3
             },
-            
+
             // Microsoft Phi-4 Series
             {
                 model: "microsoft/phi-4",
@@ -1403,7 +1447,7 @@
                 words: 74.8,
                 chars: 367.3
             },
-            
+
             // Meta LLaMA Series
             {
                 model: "meta-llama/Llama-3.2-1B-Instruct",
@@ -1465,7 +1509,7 @@
                 words: 174.1,
                 chars: 859.7
             },
-            
+
             // Qwen2.5 Series (Base Models)
             {
                 model: "Qwen/Qwen2.5-0.5B-Instruct",
@@ -1539,7 +1583,7 @@
                 words: 139.1,
                 chars: 673.6
             },
-            
+
             // Other Models
             {
                 model: "HuggingFaceTB/SmolLM2-1.7B-Instruct",
@@ -1577,7 +1621,7 @@
                 words: 234.2,
                 chars: 1123.7
             },
-            
+
             // Qwen2.5 Math Series
             {
                 model: "Qwen/Qwen2.5-Math-1.5B-Instruct",
@@ -1603,7 +1647,7 @@
                 words: 221.5,
                 chars: 1156.0
             },
-            
+
             // Qwen2.5 Quantized Models (GPTQ-8-Bit)
             {
                 model: "Qwen/Qwen2.5-0.5B-Instruct-GPTQ-Int8",
@@ -1689,7 +1733,7 @@
                 words: 184.2,
                 chars: 901.5
             },
-            
+
             // Qwen2.5 Quantized Models (GPTQ-4-Bit)
             {
                 model: "Qwen/Qwen2.5-0.5B-Instruct-GPTQ-Int4",
@@ -1798,6 +1842,105 @@
                 overthinking: 2606.3,
                 words: 188.4,
                 chars: 919.8
+            },
+            {
+                model: "GPT-4.1",
+                params: "--",
+                accuracy: 89.88,
+                instruction: 97.79,
+                tokens: 338.8,
+                efficiency: 0.752,
+                overthinking: 801.3,
+                words: 152.2,
+                chars: 759.5
+            },
+            {
+                model: "GPT-4.1-mini",
+                params: "--",
+                accuracy: 90.23,
+                instruction: 98.14,
+                tokens: 328.8,
+                efficiency: 0.768,
+                overthinking: 830.4,
+                words: 145.1,
+                chars: 740.7
+            },
+            {
+                model: "GPT-4.1-nano",
+                params: "--",
+                accuracy: 75.35,
+                instruction: 95.58,
+                tokens: 338.8,
+                efficiency: 0.713,
+                overthinking: 493.9,
+                words: 148.7,
+                chars: 760.3
+            },
+            {
+                model: "GPT-4o",
+                params: "--",
+                accuracy: 87.56,
+                instruction: 99.42,
+                tokens: 290.5,
+                efficiency: 0.737,
+                overthinking: 633.1,
+                words: 154.8,
+                chars: 749
+            },
+            {
+                model: "GPT-4o-mini",
+                params: "--",
+                accuracy: 75.00,
+                instruction: 97.67,
+                tokens: 341.3,
+                efficiency: 0.671,
+                overthinking: 936.3,
+                words: 172,
+                chars: 848.7
+            },
+            {
+                model: "gemini-2.0-flash-lite",
+                params: "--",
+                accuracy: 73.33,
+                instruction: 99.58,
+                tokens: 215.5,
+                efficiency: 0.613,
+                overthinking: 398.3,
+                words: 116.9,
+                chars: 523
+            },
+            {
+                model: "gemini-2.0-flash",
+                params: "--",
+                accuracy: 69.60,
+                instruction: 94.44,
+                tokens: 234.5,
+                efficiency: 0.608,
+                overthinking: 171.9,
+                words: 118.9,
+                chars: 517.9
+            },
+            {
+                model: "gemini-2.5-flash-lite-preview-06-17",
+                params: "--",
+                accuracy: 66.21,
+                instruction: 80.69,
+                tokens: 528.7,
+                efficiency: 0.431,
+                overthinking: 1144.3,
+                words: 285.8,
+                chars: 1482.2
+            },
+            {
+                model: "gemini-2.5-flash",
+                params: "--",
+                accuracy: 55.18,
+                instruction: 63.49,
+                tokens: 186.3,
+                efficiency: 0.312,
+                overthinking: 216.9,
+                words: 104.8,
+                chars: 539.5
             }
         ];
 
@@ -1805,12 +1948,12 @@
         function calculateRanks(data) {
             // Sort by efficiency score (descending) to determine ranks
             const sorted = [...data].sort((a, b) => b.efficiency - a.efficiency);
-            
+
             // Assign ranks
             sorted.forEach((model, index) => {
                 model.rank = index + 1;
             });
-            
+
             // Return original array with ranks added
             return data.map(model => {
                 const rankedModel = sorted.find(m => m.model === model.model);
@@ -1823,7 +1966,7 @@
 
         // Function to get color based on metric value
         function getMetricClass(value, metric) {
-            switch(metric) {
+            switch (metric) {
                 case 'accuracy':
                 case 'instruction':
                 case 'efficiency':
@@ -1851,7 +1994,7 @@
             sortedData.forEach((model) => {
                 const row = document.createElement('tr');
                 const rankIcon = model.rank <= 3 ? ['🥇', '🥈', '🥉'][model.rank - 1] : '';
-                
+
                 row.innerHTML = `
                     <td>
                         <span class="rank rank-${model.rank}">
@@ -1906,7 +2049,7 @@
 
             const sortedData = [...rankedModelData].sort((a, b) => {
                 let aVal, bVal;
-                switch(column) {
+                switch (column) {
                     case 'model':
                         aVal = a.model.toLowerCase();
                         bVal = b.model.toLowerCase();
@@ -1931,16 +2074,16 @@
         }
 
         // Search functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
+        document.getElementById('searchInput').addEventListener('input', function (e) {
             const searchTerm = e.target.value.toLowerCase();
-            const filteredData = rankedModelData.filter(model => 
+            const filteredData = rankedModelData.filter(model =>
                 model.model.toLowerCase().includes(searchTerm)
             );
-            
+
             // Apply current sorting to filtered data
             const sortedData = [...filteredData].sort((a, b) => {
                 let aVal, bVal;
-                switch(currentSort.column) {
+                switch (currentSort.column) {
                     case 'model':
                         aVal = a.model.toLowerCase();
                         bVal = b.model.toLowerCase();
@@ -1960,20 +2103,20 @@
                     return aVal < bVal ? 1 : -1;
                 }
             });
-            
+
             renderTable(sortedData);
         });
 
         // Sort select
-        document.getElementById('sortSelect').addEventListener('change', function(e) {
+        document.getElementById('sortSelect').addEventListener('change', function (e) {
             const column = e.target.value;
             // Update current sort state
             currentSort.column = column;
             currentSort.order = column === 'overthinking' || column === 'tokens' || column === 'words' || column === 'chars' ? 'asc' : 'desc';
-            
+
             const sortedData = [...rankedModelData].sort((a, b) => {
                 let aVal, bVal;
-                switch(column) {
+                switch (column) {
                     case 'model':
                         aVal = a.model.toLowerCase();
                         bVal = b.model.toLowerCase();
@@ -2001,11 +2144,11 @@
         function initCharts() {
             // Set Chart.js defaults for dark theme
             Chart.defaults.color = '#e4e4e7';
-            
+
             // Efficiency Chart
             const effCanvas = document.getElementById('efficiencyChart');
             const effCtx = effCanvas.getContext('2d');
-            
+
             new Chart(effCtx, {
                 type: 'scatter',
                 data: {
@@ -2033,7 +2176,7 @@
                         legend: { display: false },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     return `${context.raw.label}: ${context.parsed.x.toFixed(2)}% accuracy, ${context.parsed.y.toFixed(2)} efficiency`;
                                 }
                             }
@@ -2061,7 +2204,7 @@
             // Size Chart - Original bar/line combo
             const sizeCanvas = document.getElementById('sizeChart');
             const sizeCtx = sizeCanvas.getContext('2d');
-            
+
             new Chart(sizeCtx, {
                 type: 'bar',
                 data: {
@@ -2128,7 +2271,7 @@
             // Overthinking vs Accuracy Chart - Bubble Chart
             const overthinkingCanvas = document.getElementById('overthinkingChart');
             const overthinkingCtx = overthinkingCanvas.getContext('2d');
-            
+
             new Chart(overthinkingCtx, {
                 type: 'bubble',
                 data: {
@@ -2159,7 +2302,7 @@
                         legend: { display: false },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     return `${context.raw.label}: ${context.raw.overthinking.toFixed(1)} overthinking, ${context.parsed.y.toFixed(2)}% accuracy, ${context.raw.efficiency.toFixed(3)} efficiency`;
                                 }
                             }
@@ -2187,7 +2330,7 @@
             // Token Efficiency Chart - Radar Chart by Model Family
             const tokenEfficiencyCanvas = document.getElementById('tokenEfficiencyChart');
             const tokenEfficiencyCtx = tokenEfficiencyCanvas.getContext('2d');
-            
+
             // Group models by family
             const modelFamilies = {
                 'Qwen': rankedModelData.filter(m => m.model.includes('Qwen')),
@@ -2196,7 +2339,7 @@
                 'Mistral': rankedModelData.filter(m => m.model.includes('Mistral') || m.model.includes('mistral')),
                 'SmolLM': rankedModelData.filter(m => m.model.includes('SmolLM'))
             };
-            
+
             // Calculate average metrics for each family
             const familyData = Object.entries(modelFamilies).map(([family, models]) => {
                 if (models.length === 0) return null;
@@ -2209,7 +2352,7 @@
                     tokenEfficiency: models.reduce((sum, m) => sum + (m.accuracy / m.tokens * 100), 0) / models.length
                 };
             }).filter(d => d !== null);
-            
+
             new Chart(tokenEfficiencyCtx, {
                 type: 'radar',
                 data: {
@@ -2292,7 +2435,7 @@
             // Instruction Following vs Accuracy Chart - Doughnut Chart
             const instructionCanvas = document.getElementById('instructionChart');
             const instructionCtx = instructionCanvas.getContext('2d');
-            
+
             // Create accuracy ranges and calculate average instruction following for each
             const accuracyRanges = [
                 { min: 0, max: 30, label: 'Low (0-30%)', color: 'rgba(239, 68, 68, 0.8)' },
@@ -2300,13 +2443,13 @@
                 { min: 50, max: 70, label: 'Good (50-70%)', color: 'rgba(16, 185, 129, 0.8)' },
                 { min: 70, max: 100, label: 'Excellent (70%+)', color: 'rgba(102, 126, 234, 0.8)' }
             ];
-            
+
             const rangeData = accuracyRanges.map(range => {
-                const modelsInRange = rankedModelData.filter(m => 
+                const modelsInRange = rankedModelData.filter(m =>
                     m.accuracy >= range.min && m.accuracy < range.max
                 );
-                const avgInstruction = modelsInRange.length > 0 
-                    ? modelsInRange.reduce((sum, m) => sum + m.instruction, 0) / modelsInRange.length 
+                const avgInstruction = modelsInRange.length > 0
+                    ? modelsInRange.reduce((sum, m) => sum + m.instruction, 0) / modelsInRange.length
                     : 0;
                 return {
                     ...range,
@@ -2314,7 +2457,7 @@
                     avgInstruction: avgInstruction
                 };
             }).filter(range => range.count > 0);
-            
+
             new Chart(instructionCtx, {
                 type: 'doughnut',
                 data: {
@@ -2342,7 +2485,7 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     const range = rangeData[context.dataIndex];
                                     return `${range.label}: ${range.avgInstruction.toFixed(1)}% avg instruction following`;
                                 }
@@ -2361,10 +2504,10 @@
             // Performance Distribution Chart - Stacked Area Chart
             const distributionCanvas = document.getElementById('distributionChart');
             const distributionCtx = distributionCanvas.getContext('2d');
-            
+
             // Sort models by rank and take top 20 for visualization
             const topModels = rankedModelData.slice(0, 20).sort((a, b) => a.rank - b.rank);
-            
+
             new Chart(distributionCtx, {
                 type: 'line',
                 data: {
@@ -2409,14 +2552,14 @@
                         },
                         tooltip: {
                             callbacks: {
-                                title: function(context) {
+                                title: function (context) {
                                     const model = topModels[context[0].dataIndex];
                                     return model.model.split('/').pop();
                                 },
-                                label: function(context) {
+                                label: function (context) {
                                     const model = topModels[context.dataIndex];
-                                    const value = context.datasetIndex === 2 ? 
-                                        (context.parsed.y / 100).toFixed(3) : 
+                                    const value = context.datasetIndex === 2 ?
+                                        (context.parsed.y / 100).toFixed(3) :
                                         context.parsed.y.toFixed(2) + '%';
                                     return `${context.dataset.label}: ${value}`;
                                 }
@@ -2465,7 +2608,7 @@
         function createParticles() {
             const container = document.getElementById('particles');
             const particleCount = 50;
-            
+
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
@@ -2505,7 +2648,7 @@
                 const row = document.createElement('tr');
                 const rankIcon = model.rank <= 3 ? ['🥇', '🥈', '🥉'][model.rank - 1] : '';
                 const isSelected = selectedModels.has(model.model);
-                
+
                 row.innerHTML = `
                     <td>
                         <span class="rank rank-${model.rank}">
@@ -2528,14 +2671,14 @@
                         </button>
                     </td>
                 `;
-                
+
                 // Add click event for row selection
                 row.addEventListener('click', (e) => {
                     if (!e.target.closest('button')) {
                         showModelDetails(model);
                     }
                 });
-                
+
                 tableBody.appendChild(row);
             });
         }
@@ -2551,7 +2694,7 @@
                 }
                 selectedModels.add(modelName);
             }
-            
+
             updateComparePanel();
             renderTable(filteredData);
         }
@@ -2559,7 +2702,7 @@
         function updateComparePanel() {
             const panel = document.getElementById('comparePanel');
             const items = document.getElementById('compareItems');
-            
+
             if (selectedModels.size > 0) {
                 panel.classList.add('active');
                 items.innerHTML = Array.from(selectedModels).map(modelName => {
@@ -2589,9 +2732,9 @@
 
             // Update range displays
             function updateRanges() {
-                document.getElementById('accuracyRange').textContent = 
+                document.getElementById('accuracyRange').textContent =
                     `${accuracyMin.value}% - ${accuracyMax.value}%`;
-                document.getElementById('efficiencyValue').textContent = 
+                document.getElementById('efficiencyValue').textContent =
                     parseFloat(efficiencyFilter.value).toFixed(3);
             }
 
@@ -2618,10 +2761,10 @@
             filteredData = rankedModelData.filter(model => {
                 // Accuracy range
                 if (model.accuracy < accuracyMin || model.accuracy > accuracyMax) return false;
-                
+
                 // Family filter
                 if (familyFilter && !model.model.toLowerCase().includes(familyFilter.toLowerCase())) return false;
-                
+
                 // Size filter
                 if (sizeFilter) {
                     const params = parseFloat(model.params.replace(/[^0-9.]/g, ''));
@@ -2629,10 +2772,10 @@
                     if (sizeFilter === 'medium' && (params < 3 || params > 10)) return false;
                     if (sizeFilter === 'large' && params <= 10) return false;
                 }
-                
+
                 // Efficiency filter
                 if (model.efficiency < efficiencyFilter) return false;
-                
+
                 // Quantization filter
                 if (quantizationFilter) {
                     if (quantizationFilter === 'normal' && model.quantization !== 'None') return false;
@@ -2640,7 +2783,7 @@
                     if (quantizationFilter === 'GPTQ-8-Bit' && model.quantization !== 'GPTQ-8-Bit') return false;
                     if (quantizationFilter === 'GPTQ-4-Bit' && model.quantization !== 'GPTQ-4-Bit') return false;
                 }
-                
+
                 return true;
             });
 
@@ -2654,10 +2797,10 @@
             document.getElementById('sizeFilter').value = '';
             document.getElementById('efficiencyFilter').value = 0;
             document.getElementById('quantizationFilter').value = '';
-            
+
             document.getElementById('accuracyRange').textContent = '0% - 100%';
             document.getElementById('efficiencyValue').textContent = '0.000';
-            
+
             filteredData = [...rankedModelData];
             renderTable(filteredData);
         }
@@ -2666,7 +2809,7 @@
         function toggleFabMenu() {
             const menu = document.getElementById('fabMenu');
             const button = document.getElementById('fabButton');
-            
+
             fabMenuOpen = !fabMenuOpen;
             menu.classList.toggle('active', fabMenuOpen);
             button.querySelector('i').style.transform = fabMenuOpen ? 'rotate(45deg)' : 'rotate(0deg)';
@@ -2687,11 +2830,11 @@
             const csvData = [
                 ['Rank', 'Model', 'Parameters', 'Accuracy', 'Efficiency', 'Instruction Following', 'Overthinking', 'Tokens', 'Words', 'Characters'],
                 ...filteredData.map(m => [
-                    m.rank, m.model, m.params, m.accuracy, m.efficiency, m.instruction, 
+                    m.rank, m.model, m.params, m.accuracy, m.efficiency, m.instruction,
                     m.overthinking, m.tokens, m.words, m.chars
                 ])
             ].map(row => row.join(',')).join('\\n');
-            
+
             const blob = new Blob([csvData], { type: 'text/csv' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -2708,14 +2851,14 @@
                 alert('Please select at least 2 models to compare.');
                 return;
             }
-            
+
             const modal = document.getElementById('comparisonModal');
             const content = document.getElementById('comparisonContent');
-            
-            const compareData = Array.from(selectedModels).map(modelName => 
+
+            const compareData = Array.from(selectedModels).map(modelName =>
                 rankedModelData.find(m => m.model === modelName)
             );
-            
+
             content.innerHTML = `
                 <div style="overflow-x: auto;">
                     <table style="width: 100%; border-collapse: collapse;">
@@ -2740,9 +2883,9 @@
                     <canvas id="comparisonChart" style="max-height: 400px;"></canvas>
                 </div>
             `;
-            
+
             modal.classList.add('active');
-            
+
             // Create comparison chart
             setTimeout(() => createComparisonChart(compareData), 100);
         }
@@ -2750,7 +2893,7 @@
         function createComparisonChart(compareData) {
             const canvas = document.getElementById('comparisonChart');
             const ctx = canvas.getContext('2d');
-            
+
             new Chart(ctx, {
                 type: 'radar',
                 data: {
@@ -2817,7 +2960,7 @@
         function showModelDetails(model) {
             const modal = document.getElementById('comparisonModal');
             const content = document.getElementById('comparisonContent');
-            
+
             content.innerHTML = `
                 <div style="text-align: center; margin-bottom: 2rem;">
                     <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">${model.model}</h3>
@@ -2864,13 +3007,13 @@
                     </button>
                 </div>
             `;
-            
+
             modal.classList.add('active');
         }
 
         // Helper function to get metric colors
         function getMetricColor(value, metric) {
-            switch(metric) {
+            switch (metric) {
                 case 'accuracy':
                 case 'instruction':
                 case 'efficiency':
@@ -2884,12 +3027,12 @@
         }
 
         // Initialize everything
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             createParticles();
             initScrollAnimations();
             initFilters();
             updateTopModels();
-            
+
             // Sort by rank initially to show rank 1 first
             const initialSortedData = [...rankedModelData].sort((a, b) => a.rank - b.rank);
             filteredData = initialSortedData;
@@ -2898,24 +3041,25 @@
         });
 
         // Add smooth scrolling for citation link
-        document.querySelector('a[href="#citation"]').addEventListener('click', function(e) {
+        document.querySelector('a[href="#citation"]').addEventListener('click', function (e) {
             e.preventDefault();
             document.getElementById('citation').scrollIntoView({ behavior: 'smooth' });
         });
 
         // Close modals when clicking outside
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             if (e.target.classList.contains('modal')) {
                 e.target.classList.remove('active');
             }
         });
 
         // Close FAB menu when clicking outside
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             if (!e.target.closest('.fab-container') && fabMenuOpen) {
                 toggleFabMenu();
             }
         });
     </script>
 </body>
+
 </html>
