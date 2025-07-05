@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="https://via.placeholder.com/900x200/0f0f23/4f46e5?text=🧠+LLMThinkBench+Leaderboard+🏆+Live+Rankings+⚡" alt="LLMThinkBench Leaderboard" width="900" style="border-radius: 20px; box-shadow: 0 12px 40px rgba(79, 70, 229, 0.4);"/>
+### **[🔥 Launch the Leaderboard →](https://ctrl-gaurav.github.io/llmthinkbench.github.io/)**
 
 [![Live Demo](https://img.shields.io/badge/🔥-Live%20Demo-red?style=for-the-badge)](https://ctrl-gaurav.github.io/llmthinkbench.github.io/)
 [![Framework](https://img.shields.io/badge/🧠-LLMThinkBench-blue?style=for-the-badge)](https://github.com/ctrl-gaurav/LLMThinkBench)
@@ -84,11 +84,11 @@ Beautiful charts, filters, and deep-dive analytics
 
 | Rank | Model | Overthinking Score | Accuracy | Efficiency | Status |
 |------|-------|-------------------|----------|------------|---------|
-| 🥇 | **Qwen3-4B** | 0.925 | 99.1% | 94.2% | 🟢 Live |
-| 🥈 | **Claude-3.5-Sonnet** | 0.918 | 98.7% | 93.8% | 🟢 Live |
-| 🥉 | **GPT-4-Turbo** | 0.912 | 98.9% | 92.1% | 🟢 Live |
-| 4th | **Llama-3.1-70B** | 0.897 | 97.8% | 91.6% | 🟢 Live |
-| 5th | **Gemini-Pro** | 0.884 | 97.2% | 90.9% | 🟢 Live |
+| 🥇 | **GPT-4.1-mini** | 0.768 | 90.23% | 98.14% | 🟢 Live |
+| 🥈 | **GPT-4.1** | 0.752 | 89.88% | 97.79% | 🟢 Live |
+| 🥉 | **GPT-4o** | 0.737 | 87.56% | 99.42% | 🟢 Live |
+| 4th | **GPT-4.1-nano** | 0.713 | 75.35% | 95.58% | 🟢 Live |
+| 5th | **Llama-3.1-70B** | 0.691 | 75.43% | 98.12% | 🟢 Live |
 
 *Rankings update automatically as new evaluations complete*
 
@@ -97,12 +97,6 @@ Beautiful charts, filters, and deep-dive analytics
 ---
 
 ## 📊 **Leaderboard Features**
-
-<div align="center">
-
-<img src="https://via.placeholder.com/800x500/1e1b4b/f8fafc?text=📊+Interactive+Dashboard+🔍+Filter+%26+Compare+⚡+Real-time+Updates+📈+Rich+Analytics" alt="Dashboard Preview" width="800" style="border-radius: 15px; box-shadow: 0 8px 32px rgba(30, 27, 75, 0.3);"/>
-
-</div>
 
 ### 🎛️ **Interactive Controls**
 - **🔍 Model Search** - Find specific models instantly
@@ -132,8 +126,6 @@ Beautiful charts, filters, and deep-dive analytics
 <div align="center">
 
 ### **🌈 Beautiful Interface**
-
-<img src="https://via.placeholder.com/600x200/3b82f6/ffffff?text=🎨+Modern+Design+✨+Smooth+Animations+🌈+Color-coded+Metrics" alt="UI Preview" width="600" style="border-radius: 10px;"/>
 
 **Features:**
 - 🎨 **Modern UI** - Clean, professional design
