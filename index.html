@@ -1118,7 +1118,7 @@
         </div>
         <select class="sort-select" id="sortSelect">
             <option value="rank">Sort by Rank</option>
-            <option value="accuracy">Sort by Accuracy</option>
+            <option value="accuracy" selected>Sort by Accuracy</option>
             <option value="efficiency">Sort by Efficiency</option>
             <option value="instruction">Sort by Instruction Following</option>
             <option value="overthinking">Sort by Overthinking Ratio</option>
@@ -2034,7 +2034,7 @@
         }
 
         // Sort functionality
-        let currentSort = { column: 'rank', order: 'asc' };
+        let currentSort = { column: 'accuracy', order: 'desc' };
 
         function sortTable(column) {
             if (currentSort.column === column) {
@@ -3033,8 +3033,8 @@
             initFilters();
             updateTopModels();
 
-            // Sort by rank initially to show rank 1 first
-            const initialSortedData = [...rankedModelData].sort((a, b) => a.rank - b.rank);
+            // Sort by accuracy initially to show highest accuracy first
+            const initialSortedData = [...rankedModelData].sort((a, b) => b.accuracy - a.accuracy);
             filteredData = initialSortedData;
             renderTable(initialSortedData);
             initCharts();
