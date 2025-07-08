@@ -1950,10 +1950,10 @@
             }
         ];
 
-        // Calculate ranks dynamically based on efficiency score
+        // Calculate ranks dynamically based on accuracy
         function calculateRanks(data) {
-            // Sort by efficiency score (descending) to determine ranks
-            const sorted = [...data].sort((a, b) => b.efficiency - a.efficiency);
+            // Sort by accuracy (descending) to determine ranks
+            const sorted = [...data].sort((a, b) => b.accuracy - a.accuracy);
 
             // Assign ranks
             sorted.forEach((model, index) => {
@@ -2175,6 +2175,11 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            bottom: 20
+                        }
+                    },
                     interaction: {
                         mode: 'point'
                     },
@@ -2236,6 +2241,11 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            bottom: 20
+                        }
+                    },
                     interaction: {
                         mode: 'index',
                         intersect: false
@@ -2301,6 +2311,11 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            bottom: 20
+                        }
+                    },
                     interaction: {
                         mode: 'point'
                     },
@@ -2547,6 +2562,11 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            bottom: 20
+                        }
+                    },
                     interaction: {
                         mode: 'index',
                         intersect: false
@@ -3039,8 +3059,8 @@
             initFilters();
             updateTopModels();
 
-            // Sort by accuracy initially to show highest accuracy first
-            const initialSortedData = [...rankedModelData].sort((a, b) => b.accuracy - a.accuracy);
+            // Sort by rank initially to show highest accuracy first
+            const initialSortedData = [...rankedModelData].sort((a, b) => a.rank - b.rank);
             filteredData = initialSortedData;
             renderTable(initialSortedData);
             initCharts();
