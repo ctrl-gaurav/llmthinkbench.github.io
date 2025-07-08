@@ -252,9 +252,9 @@
         .badges {
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 2rem;
             flex-wrap: wrap;
-            margin-bottom: 2rem;
+            margin-bottom: 0rem;
         }
 
         .badge {
@@ -267,7 +267,10 @@
             transition: all 0.3s;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
+            min-width: 120px;
+            text-align: center;
         }
 
         .badge:hover {
@@ -383,7 +386,7 @@
         /* Search and Filters */
         .controls {
             max-width: 1400px;
-            margin: 0 auto 2rem;
+            margin: 1rem auto 2rem;
             padding: 0 2rem;
             display: flex;
             gap: 1rem;
@@ -1024,8 +1027,8 @@
                 style="text-decoration: none;">
                 <i class="fab fa-github"></i> GitHub
             </a>
-            <a href="https://arxiv.org" target="_blank" class="badge" style="text-decoration: none;">
-                <i class="fas fa-file-alt"></i> arXiv (Coming Soon)
+            <a href="https://www.arxiv.org/abs/2507.04023" target="_blank" class="badge" style="text-decoration: none;">
+                <i class="fas fa-scroll"></i> Preprint (arXiv)
             </a>
         </div>
     </section>
@@ -1041,7 +1044,7 @@
             </div>
             <div class="winner-card fade-in">
                 <div class="trophy silver-trophy">🥈</div>
-                <div class="winner-title">Most Efficient Model</div>
+                <div class="winner-title">Least Overthinking Model</div>
                 <div class="winner-model" id="best-efficiency-model">Loading...</div>
                 <div class="winner-metric" id="best-efficiency-value">--</div>
             </div>
@@ -1245,13 +1248,16 @@
         <div class="footer-content">
             <h3>Citation</h3>
             <div class="citation" id="citation">
-                @software{llmthinkbench2025,
-                author = {Gaurav Srivastava, Aafiya Hussain, Sriram Srinivasan, Xuan Wang},
-                title = {LLMThinkBench: Advanced Reasoning and Overthinking Evaluation Framework for LLMs},
+                @article{srivastava2025llmthinkbench,
+                title = {LLMThinkBench: Towards Basic Math Reasoning and Overthinking in Large Language Models},
+                author = {Gaurav Srivastava and Aafiya Hussain and Sriram Srinivasan and Xuan Wang},
                 year = {2025},
-                url = {https://github.com/ctrl-gaurav/LLMThinkBench/},
-                version = {0.1.6}
+                eprint = {2507.04023},
+                archivePrefix = {arXiv},
+                primaryClass = {cs.CL},
+                url = {https://arxiv.org/abs/2507.04023}
                 }
+
             </div>
             <div class="footer-links">
                 <a href="https://github.com/ctrl-gaurav/LLMThinkBench" target="_blank">
