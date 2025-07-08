@@ -355,14 +355,14 @@ If you use this leaderboard in your research, please cite:
 
 ```bibtex
 @article{srivastava2025llmthinkbench,
-title = {LLMThinkBench: Towards Basic Math Reasoning and Overthinking in Large Language Models},
-author = {Gaurav Srivastava and Aafiya Hussain and Sriram Srinivasan and Xuan Wang},
-year = {2025},
-eprint = {2507.04023},
-archivePrefix = {arXiv},
-primaryClass = {cs.CL},
-url = {https://arxiv.org/abs/2507.04023}
-}
+      title = {LLMThinkBench: Towards Basic Math Reasoning and Overthinking in Large Language Models},
+      author = {Gaurav Srivastava and Aafiya Hussain and Sriram Srinivasan and Xuan Wang},
+      year = {2025},
+      eprint = {2507.04023},
+      archivePrefix = {arXiv},
+      primaryClass = {cs.CL},
+      url = {https://arxiv.org/abs/2507.04023}
+   }
 ```
 
 ---
